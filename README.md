@@ -46,20 +46,24 @@ sudo ./startup.sh
 
 <table>
     <tr>
-        <td><img src="https://s3.bmp.ovh/imgs/2024/11/29/fe006e66caa6c0d9.png"/></td>
-        <td><img src="https://s3.bmp.ovh/imgs/2024/11/29/d3ea1d916d3e86ad.png"/></td>
+        <td><img src="./images/总览.png"/></td>
+        <td><img src="./images/device.png"/></td>
     </tr>
     <tr>
-        <td><img src="https://s3.bmp.ovh/imgs/2024/11/29/0381a9fbe33119f4.png"/></td>
-        <td><img src="https://s3.bmp.ovh/imgs/2024/11/29/7d9d396a8b01ed31.png"/></td>
+        <td><img src="./images/知识库.png"/></td>
+        <td><img src="./images/智能体面板.png"/></td>
     </tr>
     <tr>
-        <td><img src="https://s3.bmp.ovh/imgs/2024/11/29/a29c097afab29e58.png"/></td>
-        <td><img src="https://s3.bmp.ovh/imgs/2024/11/29/58801c62454fa0e3.png"/></td>
+        <td><img src="./images/视频中心.png"/></td>
+        <td><img src="./images/视频广场.png"/></td>
     </tr>
     <tr>
-        <td><img src="https://s3.bmp.ovh/imgs/2024/11/29/74a10a40d0106e2a.png"/></td>
-         <td><img src="https://s3.bmp.ovh/imgs/2024/11/29/e221ef09e1ab3b36.png"/></td>
+        <td><img src="./images/规则.png"/></td>
+         <td><img src="./images/组态面板.png"/></td>
+    </tr>
+        <tr>
+        <td><img src="./images/应用市场.png"/></td>
+         <td><img src="./images/AI应用.png"/></td>
     </tr>
     <tr>
         <td><img src="./images/scada.png"/></td>
