@@ -62,8 +62,8 @@ sudo ./startup.sh
          <td><img src="https://s3.bmp.ovh/imgs/2024/11/29/e221ef09e1ab3b36.png"/></td>
     </tr>
     <tr>
-        <td><img src="https://s3.bmp.ovh/imgs/2023/03/24/0f9a87733b5fe8da.png"/></td>
-         <td><img src="https://s3.bmp.ovh/imgs/2023/08/22/58dda6cddceba5da.png"/></td>
+        <td><img src="./images/scada.png"/></td>
+         <td><img src="./images/rule.png"/></td>
     </tr>
     <tr>
         <td><img src="./images/登录.png"/></td>
