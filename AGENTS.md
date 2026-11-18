@@ -21,6 +21,8 @@ go vet ./pkg/middleware/ ./pkg/flowlog/
 
 ## 目录结构
 
+详见 [docs/architecture.md](docs/architecture.md)（模块关系图与端口/数据模型速查）、[docs/workspace.md](docs/workspace.md)（工作区总览与 Git 协作方式）。
+
 ```
 main.go                      # cobra 入口：PreRun 连库/缓存/时序库，Run 注册拦截器 + 路由 + iothub
 apps/<模块>/{api,entity,router,services}
