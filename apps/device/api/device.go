@@ -109,10 +109,17 @@ func (p *DeviceApi) GetDeviceStatus(rc *restfulx.ReqCtx) {
 		if classify == global.TslAttributesType {
 			table = fmt.Sprintf("%s_attributes", strings.ToLower(device.Name))
 		}
-		sql := `select ts,? from ? order by ts desc`
-		one, err := global.TdDb.GetOne(sql, strings.ToLower(tel.Key), table)
-		if err == nil {
-			sdv.Value = one[strings.ToLower(tel.Key)]
+		key := strings.ToLower(tel.Key)
+		if !tdIdentifier(key) || !tdIdentifier(table) {
+			sdv.Value = "未知"
+			sdv.Time = time.Now()
+			res = append(res, sdv)
+			continue
+		}
+		sql := fmt.Sprintf("select ts, `%s` from `%s` order by ts desc", key, table)
+		one, err := global.TdDb.GetOne(sql)
+		if err == nil && len(one) > 0 {
+			sdv.Value = derefValue(one[key])
 			sdv.Time = time.Now()
 		} else {
 			if value, ok := tel.Define["default_value"]; ok {
@@ -150,10 +157,46 @@ func (p *DeviceApi) GetDeviceTelemetryHistory(rc *restfulx.ReqCtx) {
 	limit := restfulx.QueryInt(rc, "limit", 1000)
 	device, err := p.DeviceApp.FindOne(id)
 	biz.ErrIsNil(err, "获取设备失败，设备不存在")
-	sql := `select ts,? from ? where ts > '?' and ts < '?' and ? is not null ORDER BY ts DESC LIMIT ? `
-	rs, err := global.TdDb.GetAll(sql, key, fmt.Sprintf("%s_telemetry", strings.ToLower(device.Name)), startTime, endTime, key, limit)
+	table := fmt.Sprintf("%s_telemetry", strings.ToLower(device.Name))
+	if !tdIdentifier(key) || !tdIdentifier(table) {
+		biz.ErrIsNil(fmt.Errorf("非法的查询字段"), "查询设备属性的遥测历史失败")
+	}
+	start := strings.ReplaceAll(startTime, "'", "''")
+	end := strings.ReplaceAll(endTime, "'", "''")
+	if start == "" {
+		start = "1970-01-01 00:00:00"
+	}
+	if end == "" {
+		end = time.Now().Format("2006-01-02 15:04:05")
+	}
+	sql := fmt.Sprintf("select ts, `%s` from `%s` where ts > '%s' and ts < '%s' and `%s` is not null ORDER BY ts DESC LIMIT %d", strings.ToLower(key), table, start, end, strings.ToLower(key), limit)
+	rs, err := global.TdDb.GetAll(sql)
 	biz.ErrIsNilAppendErr(err, "查询设备属性的遥测历史失败")
 	rc.ResData = rs
+}
+
+// tdIdentifier 判断是否为合法的 TDengine 标识符（表名/字段名）
+func tdIdentifier(name string) bool {
+	if name == "" {
+		return false
+	}
+	for i, r := range name {
+		if r == '_' || (r >= 'a' && r <= 'z') || (r >= 'A' && r <= 'Z') || (i > 0 && r >= '0' && r <= '9') {
+			continue
+		}
+		return false
+	}
+	return true
+}
+
+func derefValue(value any) any {
+	if p, ok := value.(*any); ok {
+		if p == nil {
+			return nil
+		}
+		return *p
+	}
+	return value
 }
 
 // InsertDevice 添加Device

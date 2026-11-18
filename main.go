@@ -72,10 +72,11 @@ var rootCmd = &cobra.Command{
 	},
 	Run: func(cmd *cobra.Command, args []string) {
 		// 前置 函数
-		restfulx.UseBeforeHandlerInterceptor(middleware.PermissionHandler)
+		restfulx.UseBeforeHandlerInterceptor(middleware.FlowBeforeHandler)
 		// 后置 函数
 		restfulx.UseAfterHandlerInterceptor(middleware.LogHandler)
 		restfulx.UseAfterHandlerInterceptor(middleware.OperationHandler)
+		restfulx.UseAfterHandlerInterceptor(middleware.FlowAfterHandler)
 
 		app := initialize.InitRouter()
 		global.Log.Info("路由初始化完成")

@@ -157,6 +157,31 @@ sudo ./startup.sh
 更多功能请访问系统。
 
 ---
+
+链路流程图日志
+---
+
+每次请求都会生成一张 ASCII 流程图写入控制台，并随操作日志落库（`log_opers.flow` 为流程图文本、`flow_data` 为结构化步骤）。核心实现见 `pkg/flowlog` 与 `pkg/middleware/flow.go`。
+
+```
+┌─────────────────────────── FLOW: 添加组织信息 ────────────────────────────┐
+│   [STEP 1/4] ──▶ 请求接入                                                 │
+│     url    : POST /system/organization                                    │
+│     body   : {"organizationName":"科研中心","leader":"在天"}              │
+│                    │                                                      │
+│                    ▼                                                      │
+│   [STEP 2/4] ──▶ 鉴权校验      status : OK                                │
+│   [STEP 3/4] ──▶ 添加组织信息  status : OK                                │
+│   [STEP 4/4] ──▶ 审计落库      status : OK                                │
+└────────────────────────── FLOW DONE: SUCCESS ─────────────────────────────┘
+  total=48ms  steps=4/4  success=4  failed=0
+```
+
+- 步骤状态：`OK` 正常、`FAIL` 失败（附 `error`）、`SKIP` 上游失败跳过
+- 密码、token 等敏感字段在写入流程图前自动脱敏
+- GET 请求成功时不打印流程图，失败时打印；增删改请求始终打印
+
+---
 版权说明
 ---
 

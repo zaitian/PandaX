@@ -16,3 +16,12 @@ static
 /fatal
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
+# runtime logs
+pandax-run.err
+pandax-run.log
+vite-dev.log
+npm-install.log
+server.log
+server.err
+bridge.log
+bridge.err

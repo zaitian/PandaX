@@ -14,6 +14,10 @@ type LogOper struct {
 	OperIp       string `json:"operIp" gorm:"type:varchar(255);comment:操作IP"`
 	OperLocation string `json:"operLocation" gorm:"type:varchar(255);comment:操作地点"`
 	OperParam    string `json:"operParam" gorm:"type:varchar(255);comment:请求参数"` //
+	ErrorMsg     string `json:"errorMsg" gorm:"type:varchar(2000);comment:异常信息"`
+	TraceId      string `json:"traceId" gorm:"type:varchar(64);comment:链路追踪ID"`
+	Flow         string `json:"flow" gorm:"type:text;comment:链路流程图"`
+	FlowData     string `json:"flowData" gorm:"type:text;comment:链路步骤数据"`
 	Status       string `json:"status" gorm:"type:varchar(1);comment:0=正常,1=异常"`
 	model.BaseModel
 }
