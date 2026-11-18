@@ -7,6 +7,7 @@ Go 1.20 物联网平台后端：REST API（go-restful）+ iothub 设备接入（
 ```powershell
 go build -o pandax.exe .          # 或 go run main.go
 .\pandax.exe                      # 默认读 ./config.yml，可用 --config 或 PANDA_CONFIG 覆盖
+.\pandax.exe --config config.local.yml   # 本机差异（如 MySQL 端口 3311）放在 config.local.yml，该文件已 gitignore
 
 go test ./pkg/flowlog/ ./pkg/tool/          # 目前可用的测试
 go vet ./pkg/middleware/ ./pkg/flowlog/
