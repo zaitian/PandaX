@@ -25,3 +25,6 @@ server.log
 server.err
 bridge.log
 bridge.err
+
+# local overrides
+config.local.yml
