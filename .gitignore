@@ -28,3 +28,4 @@ bridge.err
 
 # local overrides
 config.local.yml
+/logs/

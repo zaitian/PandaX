@@ -29,11 +29,26 @@ type DeviceApi struct {
 
 func (p *DeviceApi) GetDevicePanel(rc *restfulx.ReqCtx) {
 	var data entity.DeviceTotalOutput
-	data.DeviceInfo, _ = p.DeviceApp.FindDeviceCount()
-	data.DeviceLinkStatusInfo, _ = p.DeviceApp.FindDeviceCountGroupByLinkStatus()
-	data.DeviceCountType, _ = p.DeviceApp.FindDeviceCountGroupByType()
-	data.AlarmInfo, _ = p.DeviceAlarmApp.FindAlarmCount()
-	data.ProductInfo, _ = p.ProductApp.FindProductCount()
+	var errList []string
+	collectErr := func(name string, err error) {
+		if err != nil {
+			errList = append(errList, fmt.Sprintf("%s: %v", name, err))
+		}
+	}
+	var err error
+	data.DeviceInfo, err = p.DeviceApp.FindDeviceCount()
+	collectErr("设备总数", err)
+	data.DeviceLinkStatusInfo, err = p.DeviceApp.FindDeviceCountGroupByLinkStatus()
+	collectErr("设备连接状态统计", err)
+	data.DeviceCountType, err = p.DeviceApp.FindDeviceCountGroupByType()
+	collectErr("设备类型统计", err)
+	data.AlarmInfo, err = p.DeviceAlarmApp.FindAlarmCount()
+	collectErr("告警统计", err)
+	data.ProductInfo, err = p.ProductApp.FindProductCount()
+	collectErr("产品总数", err)
+	if len(errList) > 0 && global.Log != nil {
+		global.Log.Error("首页面板统计查询失败: " + strings.Join(errList, "; "))
+	}
 	rc.ResData = data
 }
 

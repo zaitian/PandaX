@@ -237,12 +237,12 @@ func (m *deviceModelImpl) FindDeviceCount() (result entity.DeviceCount, err erro
 // 获取设备类型数量统计
 func (m *deviceModelImpl) FindDeviceCountGroupByLinkStatus() (count []entity.DeviceCountLinkStatus, err error) {
 	sql := `SELECT link_status, COUNT(*) AS total  FROM devices GROUP BY link_status`
-	err = global.Db.Raw(sql, m.table).Scan(&count).Error
+	err = global.Db.Raw(sql).Scan(&count).Error
 	return
 }
 
 func (m *deviceModelImpl) FindDeviceCountGroupByType() (count []entity.DeviceCountType, err error) {
 	sql := `SELECT device_type, COUNT(*) AS total  FROM devices GROUP BY device_type`
-	err = global.Db.Raw(sql, m.table).Scan(&count).Error
+	err = global.Db.Raw(sql).Scan(&count).Error
 	return
 }
